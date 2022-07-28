@@ -12,83 +12,63 @@ function sleep(milliseconds) {
 
 //Auto class
 class Car{
-    constructor(brand, speed, maxSpeed, currentSpeed){
+    constructor(brand, speed, distance, current){
         this.carBrand = brand;
         this.carSpeed = speed;
-        this.carMaxSpeed = maxSpeed;
-        this.carCurrentSpeed = currentSpeed;
+        this.raceDistance = distance;
+        this.carCurrent = current;
         this.crashed = false;
     }
     drive(){
-        if(this.carCurrentSpeed >= this.carMaxSpeed){
-            
+        if(this.carCurrent >= this.raceDistance){
             this.crashed= true;
-
-            if (finishedLoop === 1){
-                console.log(this.carBrand + " needs " + carTime1 + " seconds to get from 0 km/h to " + this.carMaxSpeed + " km/h");
-            }else if(finishedLoop === 2){
-                console.log(this.carBrand + " needs " + carTime2 + " seconds to get from 0 km/h to " + this.carMaxSpeed + " km/h");
-            }else if(finishedLoop === 3){
-                console.log(this.carBrand + " needs " + carTime3 + " seconds to get from 0 km/h to " + this.carMaxSpeed + " km/h");
-            }
-
+            console.log(time);
         }else{
-            this.carCurrentSpeed = this.carCurrentSpeed + this.carSpeed;
-            console.log(this.carBrand + " has a speed of " + this.carCurrentSpeed + " km/h");
-
-            if (finishedLoop === 1){
-                carTime1++;
-            }else if(finishedLoop === 2){
-                carTime2++;
-            }else if(finishedLoop === 3){
-                carTime3++;
-            }
-
+            this.carCurrent = this.carCurrent + this.carSpeed;
+            console.log(this.carBrand + " has driven " + this.carCurrent + " m");
+            time++;
         }
     }    
 }
 
-let finishedLoop = 0;
+let over = false;
+let run = 0;
+let winner = ["", 0];
 
-//gameloop
-for(var i = 0; i < 3; i++){
+//distance of the race
+const distance = parseInt(prompt("distance? "));
+
+while(over === false){
+    var time = 0;
+    run++;
+
+    //get user information
+    let brand = prompt("What brand is ur car from? ");
+    let speed = parseInt(prompt("How much meters does ur car drive per second? "));
     
-    finishedLoop++;
-    
-    if (finishedLoop === 1){
-        var carTime1 = 0;
-    }else if(finishedLoop === 2){
-        var carTime2 = 0;
-    }else if(finishedLoop === 3){
-        var carTime3 = 0;
-    }
+    //create new object
+    usrCar = new Car(brand, speed, distance, 0);
 
-    //infos from usr
-    let brand = prompt("what brand is your car? ");
-    let speed = parseInt(prompt("How much speed does your car gain per second? "));
-    let maxSpeed = parseInt(prompt("what is the maximum speed of your car? "));
-
-    //create Object
-    var usrCar = new Car(brand, speed, maxSpeed, 0);
-
-    //create while loop  
     while (usrCar.crashed == false){
-        usrCar.drive()
-        sleep(1000)
+        usrCar.drive();
+        sleep(1000);
+    }    
+
+    if(run === 1){
+        winner[1] = time;
+        winner[0] = usrCar.carBrand;
     }
 
-
-    if (finishedLoop == 3){
-        if (usrCar.crashed == true){
-            if (carTime1 < carTime2 && carTime1 < carTime3){
-                console.log("Car 1 was the fastest");
-            }else if(carTime2 < carTime1 && carTime2 < carTime3){
-                console.log("Car 2 was the fastest");
-            }else if(carTime3 < carTime1 && carTime3 < carTime2){
-                console.log("Car 3 was the fastets");
-            }
+    if(1 < run){
+        if(time < winner[1]){
+            winner[1] = time;
+            winner[0] = usrCar.carBrand;
         }
+    }    
+    let last = prompt("was that your last participant?[y/N] ");
+
+    if (last === "y"){
+        over = true;
+        console.log(winner[0] + " needed " + winner[1] + " seconds, so he won");
     }
 }
-
-
