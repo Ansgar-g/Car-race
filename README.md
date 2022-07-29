@@ -7,3 +7,6 @@ finished:
 2. Not limiting the max. racing participants to 3. Instead, doing a game loop which is left when a set variable is set to true; by the user. While this Variable is set to false; the game should ask for brand, speed and max. speed again and again. 
 
 next steps will be:
+3. a graphical user interface. I am currently not sure about the exact way I will display my game.
+
+4. making it possible to drive with several vehicles at the same time. My idea is to let the user enter speed etc. for each car. After all data has been processed in the background, all cars should be displayed in the graphical interface at the same time. 
